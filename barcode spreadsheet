@@ -1,0 +1,65 @@
+Sub BotaoGerar_Clique()
+
+Application.ScreenUpdating = False
+
+Dim Codigo As String
+Dim I As Integer
+Dim Y As Integer
+Dim Qtde As Integer
+Dim Name As String
+Dim Grad As String
+Dim Linha As Integer
+Dim Coluna As Integer
+Dim U_T As Integer
+
+Sheets("COD BARRAS").Activate
+
+Sheets("COD BARRAS").DrawingObjects.Delete
+
+U_L = Sheets("CAD BARRAS").Range("A" & Rows.Count).End(xlUp).Row
+
+Linha = 1: Coluna = 1
+
+For I = 2 To U_L
+
+
+Grad = Sheets("CAD BARRAS").Range("A" & I)
+Codigo = Sheets("CAD BARRAS").Range("B" & I)
+Name = Sheets("CAD BARRAS").Range("C" & I)
+Qtde = Sheets("CAD BARRAS").Range("D" & I)
+
+
+Sheets("LAYOUT BARRAS").Activate
+Sheets("LAYOUT BARRAS").Range("A3") = Codigo
+Sheets("LAYOUT BARRAS").Range("B1") = Name
+Sheets("LAYOUT BARRAS").Range("A1") = Grad
+
+Sheets("LAYOUT BARRAS").Range("A1:B3").Copy
+
+Sheets("COD BARRAS").Activate
+
+For Y = 1 To Qtde
+
+Sheets("COD BARRAS").Cells(Linha, Coluna).Select
+Sheets("COD BARRAS").Pictures.Paste
+
+Coluna = Coluna + 8
+If Coluna = 17 Then
+
+Linha = Linha + 7
+Coluna = 1
+
+Else
+
+End If
+
+Next Y
+Next I
+
+ActiveWindow.SelectedSheets.PrintPreview
+
+Sheets("CAD BARRAS").Select
+
+Application.ScreenUpdating = True
+
+End Sub
